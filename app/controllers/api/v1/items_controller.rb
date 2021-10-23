@@ -1,16 +1,18 @@
 class Api::V1::ItemsController < ApplicationController
   def index
-    items = Item.where(merchant_id: params[:merchant_id])
+    items = Merchant.find(params[:merchant_id]).items
     render json: Api::V1::ItemSerializer.new(items).serializable_hash
   end
 
   def create
-    item = Item.new(item_params)
-    if item.save
-      render json: Api::V1::ItemSerializer.new(item).serializable_hash, status: 201
-    else
-      render json: { message: 'Invalid attributes', errors: ['Invalid attributes'] }, status: 422
-    end
+    item = Item.create!(item_params)
+    render json: Api::V1::ItemSerializer.new(item).serializable_hash
+  end
+
+  def update
+    item = Item.find(params[:id])
+    item.update(item_params)
+    render json: Api::V1::ItemSerializer.new(item).serializable_hash
   end
 
   private
