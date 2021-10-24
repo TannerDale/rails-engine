@@ -4,7 +4,7 @@ class Api::V1::MerchantFacade
       page = page_number(params[:page])
       page_size = per_page(params[:per_page])
 
-      Merchant.offset(page * page_size).limit(page_size)
+      Merchant.all.offset(page * page_size).limit(page_size)
     end
 
     private
