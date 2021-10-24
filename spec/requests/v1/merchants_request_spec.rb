@@ -60,23 +60,49 @@ describe Api::V1::MerchantsController do
   describe 'GET /v1/merchants/:id' do
     let(:id) { merchants.last.id }
 
-    context 'with valid id' do
-      before { get api_v1_merchant_path(id) }
+    describe 'given a merchant' do
+      context 'with valid id' do
+        before { get api_v1_merchant_path(id) }
 
-      it 'returns the merchant' do
-        expect(data).to have_key(:attributes)
-        expect(data).to have_key(:id)
-        expect(data[:id].to_i).to eq(id)
-        expect(data).to have_key(:type)
-        expect(data[:attributes][:name]).to eq(merchants.last.name)
+        it 'returns the merchant' do
+          expect(data).to have_key(:attributes)
+          expect(data).to have_key(:id)
+          expect(data[:id].to_i).to eq(id)
+          expect(data).to have_key(:type)
+          expect(data[:attributes][:name]).to eq(merchants.last.name)
+        end
+      end
+
+      context 'with invalid id' do
+        before { get api_v1_merchant_path(100_000) }
+
+        it 'returns status code 404' do
+          expect(response).to have_http_status 404
+        end
       end
     end
 
-    context 'with invalid id' do
-      before { get api_v1_merchant_path(100_000) }
+    describe 'given an item' do
+      let!(:item) { create :item, { merchant_id: id } }
 
-      it 'returns status code 404' do
-        expect(response).to have_http_status 404
+      context 'with a valid item id' do
+        before { get api_v1_item_merchant_path(item) }
+
+        it 'returns the merchant' do
+          expect(data).to have_key(:attributes)
+          expect(data).to have_key(:id)
+          expect(data[:id].to_i).to eq(id)
+          expect(data).to have_key(:type)
+          expect(data[:attributes][:name]).to eq(merchants.last.name)
+        end
+      end
+
+      context 'with an invalid item id' do
+        before { get api_v1_item_merchant_path(-2) }
+
+        it 'returns status code 404' do
+          expect(response).to have_http_status(404)
+        end
       end
     end
   end
