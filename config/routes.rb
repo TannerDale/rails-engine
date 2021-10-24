@@ -5,7 +5,9 @@ Rails.application.routes.draw do
         resources :items, only: :index
       end
 
-      resources :items, only: %i[create update]
+      resources :items do
+        get '/merchant', controller: :merchants, action: :show
+      end
     end
   end
 end
