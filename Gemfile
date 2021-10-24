@@ -23,7 +23,7 @@ gem 'puma', '~> 3.11'
 # gem 'capistrano-rails', group: :development
 
 # Reduces boot times through caching; required in config/boot.rb
-gem 'active_model_serializers'
+gem 'jsonapi-serializer'
 gem 'bootsnap', '>= 1.1.0', require: false
 gem 'database_cleaner'
 gem 'factory_bot_rails'
