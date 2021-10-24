@@ -1,24 +1,34 @@
 class Api::V1::ItemsController < ApplicationController
   def index
-    items = Merchant.find(params[:merchant_id]).items
+    items = Api::V1::ItemFacade.index_items(params)
     render json: Api::V1::ItemSerializer.new(items).serializable_hash
+  end
+
+  def show
+    item = Item.find(params[:id])
+    render json: Api::V1::ItemSerializer.new(item).serializable_hash
   end
 
   def create
     item = Item.create!(item_params)
-    render json: Api::V1::ItemSerializer.new(item).serializable_hash
+    render json: Api::V1::ItemSerializer.new(item).serializable_hash, status: 201
   end
 
   def update
     item = Item.find(params[:id])
+
     item.update(item_params)
     render json: Api::V1::ItemSerializer.new(item).serializable_hash
+  end
+
+  def destroy
+    item = Item.find(params[:id])
+    item.destroy
   end
 
   private
 
   def item_params
-    new_params = params.require(:item).permit(:name, :unit_price, :description, :merchant_id)
-    new_params.merge({ unit_price: (new_params[:unit_price].to_f * 100) })
+    params.require(:item).permit(:name, :unit_price, :description, :merchant_id)
   end
 end
