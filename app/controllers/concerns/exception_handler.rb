@@ -6,7 +6,7 @@ module ExceptionHandler
       render json: {
         message: 'Invalide Parameters',
         errors: { details: e.message }
-      }, status: 400
+      }, status: :not_found
     end
 
     rescue_from ActiveRecord::RecordNotFound do |e|
