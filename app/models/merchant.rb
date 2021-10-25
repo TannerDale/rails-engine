@@ -26,4 +26,18 @@ class Merchant < ApplicationRecord
       .group(:id)
       .order('count DESC')
   end
+
+  def total_revenue
+    raw_revenue[0].revenue
+  end
+
+  private
+
+  def raw_revenue
+    invoices
+      .shipped
+      .joins(:transactions)
+      .merge(Transaction.success)
+      .select('SUM(invoice_items.quantity * invoice_items.unit_price) AS revenue')
+  end
 end
