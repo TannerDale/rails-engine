@@ -9,4 +9,12 @@ class Merchant < ApplicationRecord
     where('name ILIKE ?', "%#{name}%")
       .order(:name)
   end
+
+  def self.ordered_by_revenue
+    joins(:invoices)
+      .merge(Invoice.total_revenue)
+      .group(:id)
+      .order(revenue: :desc)
+      .select('merchants.*')
+  end
 end
