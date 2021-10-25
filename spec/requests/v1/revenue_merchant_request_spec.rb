@@ -43,7 +43,7 @@ describe Api::V1::Revenue::MerchantsController do
   let(:json) { JSON.parse(response.body, symbolize_names: true) }
   let(:data) { json[:data] }
 
-  describe 'top merchants by revenue' do
+  describe 'GET /v1/revenue/merchants' do
     before { get api_v1_revenue_merchants_path, params: { quantity: 2 } }
 
     it 'returns top merchants' do
