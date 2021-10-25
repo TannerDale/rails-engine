@@ -16,11 +16,17 @@ class Api::V1::MerchantSearchController < ApplicationController
   end
 
   def items_sold
+    raise ActionController::BadRequest unless valid_quantity?
+
     merchants = Merchant.ordered_by_items_sold.limit(params[:quantity] || 5)
     render json: Api::V1::ItemsSoldSerializer.new(merchants)
   end
 
   private
+
+  def valid_quantity?
+    params[:quantity]&.to_i&.positive?
+  end
 
   def validate_params
     raise ActionController::BadRequest if invalid_params?
