@@ -23,8 +23,8 @@ class Api::V1::ItemFacade
     end
 
     def page_number(page)
-      page_number = page&.to_i || 1
-      page_number.positive? ? page_number - 1 : 0
+      page_num = page&.to_i || 1
+      page_num.positive? ? page_num - 1 : 0
     end
   end
 end
