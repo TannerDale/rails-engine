@@ -4,7 +4,7 @@ class Api::V1::MerchantSearchController < ApplicationController
   def find
     merchant = Merchant.find_by_name(params[:name]).first
     if merchant
-      render json: Api::V1::MerchantSerializer.new(merchant).serializable_hash
+      render json: Api::V1::MerchantSerializer.new(merchant)
     else
       render json: no_merchant_found, status: 400
     end
@@ -12,7 +12,7 @@ class Api::V1::MerchantSearchController < ApplicationController
 
   def find_all
     merchants = Merchant.find_by_name(params[:name])
-    render json: Api::V1::MerchantSerializer.new(merchants).serializable_hash
+    render json: Api::V1::MerchantSerializer.new(merchants)
   end
 
   private
