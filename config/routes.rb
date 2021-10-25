@@ -4,6 +4,7 @@ Rails.application.routes.draw do
       scope :merchants do
         get '/find', controller: :merchant_search, action: :find, as: :merchant_find
         get '/find_all', controller: :merchant_search, action: :find_all, as: :merchant_find_all
+        get '/most_items', controller: :merchant_search, action: :items_sold, as: :merchants_by_items_sold
       end
 
       resources :merchants, only: %i[index show] do
