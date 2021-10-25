@@ -19,7 +19,7 @@ describe Merchant do
     end
   end
 
-  describe 'scopes' do
+  describe 'scopes / methods' do
     let(:merchant) { create :merchant }
     let!(:item1) { create :item, { merchant_id: merchant.id } }
     let!(:customer) { create :customer }
@@ -65,6 +65,10 @@ describe Merchant do
 
     it 'has ordered by items sold' do
       expect(Merchant.ordered_by_items_sold).to eq([merchant2, merchant3, merchant])
+    end
+
+    it 'has a merchants total revenue' do
+      expect(merchant3.total_revenue).to eq(850)
     end
   end
 end
