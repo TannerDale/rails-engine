@@ -71,4 +71,18 @@ describe Api::V1::Revenue::MerchantsController do
       expect(response).to have_http_status(400)
     end
   end
+
+  describe 'GET v1/revenue/merchants/:id' do
+    it 'returns the merchants revenue' do
+      get api_v1_revenue_merchant_path(merchant3)
+
+      expect(data[:attributes]).to eq({ revenue: 850 })
+    end
+
+    it 'returns status code 404 if bad id' do
+      get api_v1_revenue_merchant_path(511)
+
+      expect(response).to have_http_status(404)
+    end
+  end
 end
