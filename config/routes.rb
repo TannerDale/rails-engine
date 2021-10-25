@@ -18,6 +18,10 @@ Rails.application.routes.draw do
       resources :items do
         get '/merchant', controller: :merchants, action: :show
       end
+
+      namespace :revenue do
+        get '/merchants', to: 'merchants#revenue'
+      end
     end
   end
 end
