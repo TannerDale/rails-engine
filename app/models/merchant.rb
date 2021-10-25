@@ -17,4 +17,13 @@ class Merchant < ApplicationRecord
       .order(revenue: :desc)
       .select('merchants.*')
   end
+
+  def self.ordered_by_items_sold
+    joins(:transactions)
+      .merge(Transaction.success)
+      .merge(Invoice.shipped)
+      .select('merchants.*, SUM(invoice_items.quantity) AS count')
+      .group(:id)
+      .order('count DESC')
+  end
 end
