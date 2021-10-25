@@ -38,7 +38,7 @@ describe Merchant do
     let!(:invoice23) { create :invoice, { merchant_id: merchant2.id, customer_id: customer.id, status: 'packaged' } }
     let!(:invoice24) { create :invoice, { merchant_id: merchant2.id, customer_id: customer.id, status: 'shipped' } }
     let!(:invoice_item21) { create :invoice_item, { item_id: item21.id, invoice_id: invoice21.id, quantity: 1, unit_price: 300 } }
-    let!(:invoice_item22) { create :invoice_item, { item_id: item21.id, invoice_id: invoice22.id, quantity: 2, unit_price: 200 } }
+    let!(:invoice_item22) { create :invoice_item, { item_id: item21.id, invoice_id: invoice22.id, quantity: 8, unit_price: 25 } }
     let!(:invoice_item23) { create :invoice_item, { item_id: item21.id, invoice_id: invoice22.id, quantity: 3, unit_price: 100 } }
 
     let(:merchant3) { create :merchant }
@@ -48,7 +48,7 @@ describe Merchant do
     let!(:invoice33) { create :invoice, { merchant_id: merchant3.id, customer_id: customer.id, status: 'packaged' } }
     let!(:invoice34) { create :invoice, { merchant_id: merchant3.id, customer_id: customer.id, status: 'shipped' } }
     let!(:invoice_item31) { create :invoice_item, { item_id: item31.id, invoice_id: invoice31.id, quantity: 1, unit_price: 300 } }
-    let!(:invoice_item32) { create :invoice_item, { item_id: item31.id, invoice_id: invoice32.id, quantity: 2, unit_price: 200 } }
+    let!(:invoice_item32) { create :invoice_item, { item_id: item31.id, invoice_id: invoice32.id, quantity: 4, unit_price: 100 } }
     let!(:invoice_item33) { create :invoice_item, { item_id: item31.id, invoice_id: invoice32.id, quantity: 3, unit_price: 150 } }
 
     let!(:trans1) { create :transaction, { result: 'success', invoice_id: invoice2.id } }
@@ -60,7 +60,11 @@ describe Merchant do
     let!(:trans7) { create :transaction, { result: 'failed', invoice_id: invoice1.id } }
 
     it 'has ordered by revenue' do
-      expect(Merchant.ordered_by_revenue).to eq([merchant3, merchant2, merchant])
+      expect(Merchant.ordered_by_revenue).to eq([merchant3, merchant, merchant2])
+    end
+
+    it 'has ordered by items sold' do
+      expect(Merchant.ordered_by_items_sold).to eq([merchant2, merchant3, merchant])
     end
   end
 end
