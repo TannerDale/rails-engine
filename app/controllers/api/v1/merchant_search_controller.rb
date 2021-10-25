@@ -1,5 +1,5 @@
 class Api::V1::MerchantSearchController < ApplicationController
-  before_action :validate_params
+  before_action :validate_params, except: :items_sold
 
   def find
     merchant = Merchant.find_by_name(params[:name]).first
@@ -13,6 +13,11 @@ class Api::V1::MerchantSearchController < ApplicationController
   def find_all
     merchants = Merchant.find_by_name(params[:name])
     render json: Api::V1::MerchantSerializer.new(merchants)
+  end
+
+  def items_sold
+    merchants = Merchant.ordered_by_items_sold.limit(params[:quantity] || 5)
+    render json: Api::V1::ItemsSoldSerializer.new(merchants)
   end
 
   private
