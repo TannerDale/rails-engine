@@ -40,4 +40,11 @@ class Merchant < ApplicationRecord
       .merge(Transaction.success)
       .select('SUM(invoice_items.quantity * invoice_items.unit_price) AS revenue')
   end
+
+  def self.ordered_by_revenue
+    joins(:invoices)
+      .group(:id)
+      .order(revenue: :desc)
+      .select('merchants.*')
+  end
 end

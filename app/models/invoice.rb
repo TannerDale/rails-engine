@@ -16,9 +16,20 @@ class Invoice < ApplicationRecord
     where(status: 'shipped')
   }
 
+  scope :packaged, -> {
+    where(status: 'packaged')
+  }
+
   scope :total_revenue, -> {
-    shipped
-      .joins(:transactions)
+    shipped.merge(Invoice.revenue)
+  }
+
+  scope :packaged_revenue, -> {
+    packaged.merge(Invoice.revenue)
+  }
+
+  scope :revenue, -> {
+    joins(:transactions)
       .merge(Transaction.success)
       .distinct
       .select('SUM(invoice_items.unit_price * invoice_items.quantity) AS revenue')
