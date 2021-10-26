@@ -26,7 +26,7 @@ module ExceptionHandler
     rescue_from ActionController::BadRequest do |e|
       render json: {
         message: 'Invalid Parameters',
-        errors: { details: e.message }
+        error: { details: e.message }
       }, status: 400
     end
   end

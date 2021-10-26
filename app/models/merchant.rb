@@ -9,4 +9,44 @@ class Merchant < ApplicationRecord
     where('name ILIKE ?', "%#{name}%")
       .order(:name)
   end
+
+  def self.ordered_by_sold_revenue
+    ordered_by_revenue
+      .merge(Invoice.total_revenue)
+  end
+
+  def self.ordered_by_packaged_revenue
+    ordered_by_revenue
+      .merge(Invoice.packaged_revenue)
+  end
+
+  def self.ordered_by_items_sold
+    joins(:transactions)
+      .merge(Transaction.success)
+      .merge(Invoice.shipped)
+      .select('merchants.*, SUM(invoice_items.quantity) AS count')
+      .group(:id)
+      .order('count DESC')
+  end
+
+  def total_revenue
+    raw_revenue[0].revenue
+  end
+
+  private
+
+  def raw_revenue
+    invoices
+      .shipped
+      .joins(:transactions)
+      .merge(Transaction.success)
+      .select('SUM(invoice_items.quantity * invoice_items.unit_price) AS revenue')
+  end
+
+  def self.ordered_by_revenue
+    joins(:invoices)
+      .group(:id)
+      .order(revenue: :desc)
+      .select('merchants.*')
+  end
 end

@@ -4,6 +4,7 @@ Rails.application.routes.draw do
       scope :merchants do
         get '/find', controller: :merchant_search, action: :find, as: :merchant_find
         get '/find_all', controller: :merchant_search, action: :find_all, as: :merchant_find_all
+        get '/most_items', controller: :merchant_search, action: :items_sold, as: :merchants_by_items_sold
       end
 
       resources :merchants, only: %i[index show] do
@@ -17,6 +18,11 @@ Rails.application.routes.draw do
 
       resources :items do
         get '/merchant', controller: :merchants, action: :show
+      end
+
+      namespace :revenue do
+        get '/unshipped', to: 'revenue#unshipped'
+        resources :merchants, only: %i[index show]
       end
     end
   end

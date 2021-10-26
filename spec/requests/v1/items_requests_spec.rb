@@ -25,7 +25,8 @@ describe Api::V1::ItemsController do
 
         it 'returns the first 20 items' do
           expect(data.size).to eq(20)
-          expect(data.first[:id].to_i).to eq(items.first.id)
+          result = data.map { |d| d[:id].to_i }
+          expect(result).to_not include(items[20].id)
         end
       end
 

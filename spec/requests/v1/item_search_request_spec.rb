@@ -78,10 +78,9 @@ describe Api::V1::ItemSearchController do
         it 'gets all items above a given price' do
           get api_v1_item_find_all_path, params: { min_price: min_price }
 
-          expected = items.sort_by(&:name).find_all { |item| item.unit_price >= min_price }
-          result = data.map { |d| d[:id].to_i }
+          result = data.none? { |d| d[:attributes][:unit_price] < min_price }
 
-          expect(result).to eq(expected.map(&:id))
+          expect(result).to be(true)
         end
 
         it 'gets the first item below a given price' do
