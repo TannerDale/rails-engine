@@ -21,6 +21,7 @@ Rails.application.routes.draw do
       end
 
       namespace :revenue do
+        get '/unshipped', to: 'revenue#unshipped'
         resources :merchants, only: %i[index show]
       end
     end
