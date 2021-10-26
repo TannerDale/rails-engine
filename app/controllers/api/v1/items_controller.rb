@@ -1,4 +1,6 @@
 class Api::V1::ItemsController < ApplicationController
+  before_action :validate_merchant, only: :update
+
   def index
     items = Api::V1::ItemFacade.index_items(params)
     render json: Api::V1::ItemSerializer.new(items)
@@ -30,5 +32,10 @@ class Api::V1::ItemsController < ApplicationController
 
   def item_params
     params.require(:item).permit(:name, :unit_price, :description, :merchant_id)
+  end
+
+  def validate_merchant
+    raise ActionController::BadRequest if params[:item]&.key?(:merchant_id) &&
+                                          !Merchant.find_by(id: params[:item][:merchant_id])
   end
 end

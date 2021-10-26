@@ -174,6 +174,12 @@ describe Api::V1::ItemsController do
       it 'returns status code 400' do
         expect(response).to have_http_status(400)
       end
+
+      it 'does not update with invalid merchant id' do
+        patch api_v1_item_path(item), params: { item: { merchant_id: 11111 } }
+
+        expect(response).to have_http_status(400)
+      end
     end
   end
 
