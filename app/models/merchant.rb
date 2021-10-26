@@ -10,12 +10,14 @@ class Merchant < ApplicationRecord
       .order(:name)
   end
 
-  def self.ordered_by_revenue
-    joins(:invoices)
+  def self.ordered_by_sold_revenue
+    ordered_by_revenue
       .merge(Invoice.total_revenue)
-      .group(:id)
-      .order(revenue: :desc)
-      .select('merchants.*')
+  end
+
+  def self.ordered_by_packaged_revenue
+    ordered_by_revenue
+      .merge(Invoice.packaged_revenue)
   end
 
   def self.ordered_by_items_sold
