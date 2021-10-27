@@ -30,6 +30,14 @@ class Api::V1::ItemsController < ApplicationController
 
   private
 
+  def index_items
+    if params[:merchant_id]
+      Merchant.find(params[:merchant_id]).items
+    else
+      paginate(Item.all, params)
+    end
+  end
+
   def item_params
     params.require(:item).permit(:name, :unit_price, :description, :merchant_id)
   end
