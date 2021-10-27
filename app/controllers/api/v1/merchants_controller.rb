@@ -1,11 +1,11 @@
 class Api::V1::MerchantsController < ApplicationController
   def index
-    merchants = Api::V1::MerchantFacade.index_merchants(params)
-    render json: Api::V1::MerchantSerializer.new(merchants)
+    merchants = paginate(Merchant.all, params)
+    render json: V1::MerchantSerializer.new(merchants)
   end
 
   def show
-    render json: Api::V1::MerchantSerializer.new(find_merchant)
+    render json: V1::MerchantSerializer.new(find_merchant)
   end
 
   private
