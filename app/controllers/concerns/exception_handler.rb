@@ -5,21 +5,21 @@ module ExceptionHandler
     rescue_from ActiveRecord::RecordInvalid do |e|
       render json: {
         message: 'Invalid Parameters',
-        errors: { details: e.message }
+        error: { details: e.message }
       }, status: :not_found
     end
 
     rescue_from ActiveRecord::RecordNotFound do |e|
       render json: {
         message: 'your query could not be completed',
-        errors: { details: e.message }
+        error: { details: e.message }
       }, status: :not_found
     end
 
     rescue_from ActionController::ParameterMissing do |e|
       render json: {
         message: 'Missing Parameter',
-        errors: { details: e.message }
+        error: { details: e.message }
       }, status: 400
     end
 

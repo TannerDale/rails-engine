@@ -58,8 +58,7 @@ describe Api::V1::ItemSearchController do
 
         it 'returns nil if no item is found' do
           get api_v1_item_find_path, params: { name: 'ansdfasldjfalskdjf' }
-
-          expect(data).to be_nil
+          expect(data).to eq({})
         end
       end
 
@@ -124,29 +123,64 @@ describe Api::V1::ItemSearchController do
     end
 
     context 'with invalid query params' do
-      it 'returns an invalid params message if both a min_price and name are given' do
-        get api_v1_item_find_path, params: { name: 'hello', min_price: 1 }
-        expect(json).to have_value('Invalid Parameters')
+      describe 'with name and min price' do
+        it 'rejects in find' do
+          get api_v1_item_find_path, params: { name: 'hello', min_price: 1 }
+          expect(json).to have_value('Invalid Parameters')
+        end
+
+        it 'rejects in find_all' do
+          get api_v1_item_find_all_path, params: { name: 'hello', min_price: 1 }
+          expect(json).to have_value('Invalid Parameters')
+        end
       end
 
-      it 'returns an invalid params message if both a max_price and name are given' do
-        get api_v1_item_find_path, params: { name: 'hello', max_price: 1 }
-        expect(json).to have_value('Invalid Parameters')
+      describe 'with name and max_price' do
+        it 'rejects in find' do
+          get api_v1_item_find_path, params: { name: 'hello', max_price: 1 }
+          expect(json).to have_value('Invalid Parameters')
+        end
+
+        it 'rejects in find_all' do
+          get api_v1_item_find_all_path, params: { name: 'hello', max_price: 1 }
+          expect(json).to have_value('Invalid Parameters')
+        end
       end
 
-      it 'returns an invalid params message if no name is given' do
-        get api_v1_item_find_path, params: { name: '' }
-        expect(json).to have_value('Invalid Parameters')
+      describe 'with no name given' do
+        it 'rejects in find' do
+          get api_v1_item_find_path, params: { name: '' }
+          expect(json).to have_value('Invalid Parameters')
+        end
+
+        it 'rejects in find_all' do
+          get api_v1_item_find_all_path, params: { name: '' }
+          expect(json).to have_value('Invalid Parameters')
+        end
       end
 
-      it 'returns an invalid params message if no min_price is given' do
-        get api_v1_item_find_path, params: { min_price: '' }
-        expect(json).to have_value('Invalid Parameters')
+      describe 'with no min_price' do
+        it 'rejects in find' do
+          get api_v1_item_find_path, params: { min_price: '' }
+          expect(json).to have_value('Invalid Parameters')
+        end
+
+        it 'rejects in find_all' do
+          get api_v1_item_find_all_path, params: { min_price: '' }
+          expect(json).to have_value('Invalid Parameters')
+        end
       end
 
-      it 'returns an invalid params message if no max_price is given' do
-        get api_v1_item_find_path, params: { max_price: '' }
-        expect(json).to have_value('Invalid Parameters')
+      describe 'with no max_price' do
+        it 'rejects in find' do
+          get api_v1_item_find_path, params: { max_price: '' }
+          expect(json).to have_value('Invalid Parameters')
+        end
+
+        it 'rejects in find_all' do
+          get api_v1_item_find_all_path, params: { max_price: '' }
+          expect(json).to have_value('Invalid Parameters')
+        end
       end
     end
   end

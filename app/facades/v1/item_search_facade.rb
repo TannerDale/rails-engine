@@ -1,8 +1,6 @@
-class Api::V1::ItemSearchFacade
+class V1::ItemSearchFacade
   class << self
     def search(params, amount)
-      raise ActionController::BadRequest if name_and_price?(params)
-
       results = {
         all: -> { find_items(params) },
         one: -> { find_items(params).first }
@@ -11,10 +9,6 @@ class Api::V1::ItemSearchFacade
     end
 
     private
-
-    def name_and_price?(params)
-      params[:name] && (params[:min_price] || params[:max_price])
-    end
 
     def find_items(params)
       if params[:name]

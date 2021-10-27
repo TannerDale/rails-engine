@@ -3,7 +3,7 @@ class Api::V1::Revenue::RevenueController < ApplicationController
 
   def unshipped
     results = Merchant.ordered_by_packaged_revenue.limit(params[:quantity])
-    render json: Api::V1::UnshippedOrderSerializer.new(results)
+    render json: V1::UnshippedOrderSerializer.new(results)
   end
 
   private

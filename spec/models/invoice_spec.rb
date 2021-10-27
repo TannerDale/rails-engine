@@ -28,7 +28,7 @@ describe Invoice do
     let!(:trans4) { create :transaction, { result: 'success', invoice_id: invoice4.id } }
 
     it 'deletes the invoices with only the item on it' do
-      item1.invoices.delete_empty
+      item1.invoices.delete_empty!
 
       expect(Invoice.count).to eq(3)
     end

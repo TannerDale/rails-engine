@@ -23,7 +23,7 @@ describe Merchant do
     let(:merchant) { create :merchant }
     let!(:item1) { create :item, { merchant_id: merchant.id } }
     let!(:customer) { create :customer }
-    let!(:invoice1) { create :invoice, { merchant_id: merchant.id, customer_id: customer.id, status: 'returned' } }
+    let!(:invoice1) { create :invoice, { merchant_id: merchant.id, customer_id: customer.id, status: 'shipped' } }
     let!(:invoice2) { create :invoice, { merchant_id: merchant.id, customer_id: customer.id, status: 'shipped' } }
     let!(:invoice3) { create :invoice, { merchant_id: merchant.id, customer_id: customer.id, status: 'packaged' } }
     let!(:invoice4) { create :invoice, { merchant_id: merchant.id, customer_id: customer.id, status: 'shipped' } }
