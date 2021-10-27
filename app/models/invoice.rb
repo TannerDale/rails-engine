@@ -31,7 +31,7 @@ class Invoice < ApplicationRecord
   scope :revenue, -> {
     joins(:transactions)
       .merge(Transaction.success)
-      .select('SUM(invoice_items.unit_price * invoice_items.quantity) AS revenue')
+      .merge(InvoiceItem.revenue)
       .group(:id)
   }
 end
