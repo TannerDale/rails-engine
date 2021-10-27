@@ -28,10 +28,23 @@ class Invoice < ApplicationRecord
     packaged.merge(Invoice.revenue)
   }
 
-  scope :revenue, -> {
+  scope :ungrouped_revenue, -> {
     joins(:transactions)
       .merge(Transaction.success)
       .merge(InvoiceItem.revenue)
+  }
+
+  scope :revenue, -> {
+    ungrouped_revenue
       .group(:id)
   }
+
+  def self.revenue_by_week
+    shipped
+      .joins(:invoice_items)
+      .merge(Invoice.ungrouped_revenue)
+      .select("DATE_TRUNC('week', invoices.created_at) AS week")
+      .group(:week)
+      .order(:week)
+  end
 end
