@@ -24,6 +24,7 @@ Rails.application.routes.draw do
         get '/unshipped', to: 'revenue#unshipped'
         resources :merchants, only: %i[index show]
         get '/items', to: 'items#revenue'
+        get '/weekly', to: 'revenue#weekly'
       end
     end
   end
