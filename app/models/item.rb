@@ -18,6 +18,16 @@ class Item < ApplicationRecord
     below_price(max).merge(Item.above_price(min))
   end
 
+  def self.ordered_by_revenue
+    joins(invoices: :transactions)
+      .merge(Transaction.success)
+      .merge(Invoice.shipped)
+      .merge(InvoiceItem.revenue)
+      .select('items.*')
+      .group(:id)
+      .order(revenue: :desc)
+  end
+
   scope :below_price, ->(price) {
     where('unit_price <= ?', price)
       .order(:name)
