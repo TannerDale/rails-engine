@@ -1,7 +1,5 @@
 class V1::ItemRevenueSerializer
   include JSONAPI::Serializer
 
-  attributes :name, :description, :unit_price, :merchant_id
-
-  attribute :revenue, &:revenue
+  attributes :name, :description, :unit_price, :merchant_id, :revenue
 end
