@@ -45,8 +45,8 @@ distribution center.
         <li><a href="#installation">Installation</a></li>
       </ul>
     </li>
-    <li><a href="#endpoints">Endpoints</a></li>
-    <li><a href="#responses">Example Responses</a></li>
+    <li><a href="#udage-examples">Endpoints</a></li>
+    <li><a href="#example-responses">Example Responses</a></li>
     <li><a href="#contact">Contact</a></li>
   </ol>
 </details>
@@ -124,6 +124,7 @@ distribution center.
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
+<!-- EXAMPLE RESPONSES -->
 ## Example Responses
 
 `GET v1/items?per_page=2`
