@@ -30,20 +30,14 @@ class Merchant < ApplicationRecord
   end
 
   def total_revenue
-    raw_revenue[0].revenue
-  end
-
-  private
-
-  def raw_revenue
     invoices
       .shipped
       .joins(:transactions)
       .merge(Transaction.success)
-      .merge(InvoiceItem.revenue) # replace with above line
-      # .sum('invoice_items.unit_price * invoice_items.quantity')
+      .sum('invoice_items.unit_price * invoice_items.quantity')
   end
 
+  # Does not function independently - Requires merging an Invoice revenue scope
   def self.ordered_by_revenue
     joins(:invoices)
       .group(:id)
