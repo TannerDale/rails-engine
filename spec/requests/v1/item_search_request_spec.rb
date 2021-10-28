@@ -112,12 +112,15 @@ describe Api::V1::ItemSearchController do
         it 'gets all items within a range' do
           get api_v1_item_find_all_path, params: { min_price: min_price, max_price: max_price }
 
-          result = data.map { |d| d[:id].to_i }
-          expected = items.sort_by(&:name).find_all do |item|
-            item.unit_price <= max_price && item.unit_price >= min_price
+          result = data.map { |item| item[:id].to_i }
+          alpha = data[..-2].each_with_index.all? do |item, i|
+            item[:attributes][:name] < data[i + 1][:attributes][:name]
           end
 
-          expect(result).to eq(expected.map(&:id))
+          expected = Item.where(unit_price: min_price..max_price)
+
+          expect(result.size).to eq(expected.size)
+          expect(alpha).to be(true)
         end
       end
     end
