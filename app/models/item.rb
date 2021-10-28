@@ -29,11 +29,15 @@ class Item < ApplicationRecord
   end
 
   scope :below_price, ->(price) {
+    return all unless price
+
     where('unit_price <= ?', price)
       .order(:name)
   }
 
   scope :above_price, ->(price) {
+    return all unless price
+
     where('unit_price >= ?', price)
       .order(:name)
   }
