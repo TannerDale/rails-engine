@@ -66,9 +66,9 @@ distribution center.
 
 ### Built With
 
-* [Ruby on Rails](https://rubyonrails.org/) - 5.2.6
-* [Ruby](https://www.ruby-lang.org/en/) - 2.7.2
-* [PostgreSQL](https://www.postgresql.org/) >= 0.18
+* [Ruby on Rails](https://rubyonrails.org/) 5.2.6
+* [Ruby](https://www.ruby-lang.org/en/) 2.7.2
+* [PostgreSQL](https://www.postgresql.org/)
 * [RSpec](https://rspec.info/)
 * [SimpleCov](https://github.com/simplecov-ruby/simplecov)
 * [JSONAPI](https://github.com/jsonapi-serializer/jsonapi-serializer)
