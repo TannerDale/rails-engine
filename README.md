@@ -1,24 +1,57 @@
-# README
+# Rails Engine
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+API for fetching information about Merchants, Items, and Invoices
+modeled off of the back-end functionality for a large product
+distribution center.
 
-Things you may want to cover:
+## Versions
 
-* Ruby version
+- Ruby 2.7.2
+- Rails 5.2.6
+- PostgreSQL 0.18 < 2.0
 
-* System dependencies
+## Local Setup
 
-* Configuration
+1. Fork and clone repo
+2. `bundle install`
+3. `rails db:{create,seed}`
+  - do NOT run a migration, pgdump in seeding will create the required tables
+4. `rails db:schema:dump`
 
-* Database creation
+## Endpoints
 
-* Database initialization
+### V1
 
-* How to run the test suite
+- Merchants
+  - `/merchants`
+  - `/merchants/:id`
+  - `/merchants/:id/items`
 
-* Services (job queues, cache servers, search engines, etc.)
+- Items
+  - `/items`
+  - `/items/:id` get, post, patch, delete
+  - `/items/:id/merchant`
 
-* Deployment instructions
+- Item, Merchant Searching
+  - `/merchants/find`
+  - `/merchants/find_all`
+  - `/merchants/most_items`
+  - `/items/find`
+  - `/items/find_all`
 
-* ...
+- Revenue Details
+  - `/revenue`
+  - `/revenue/unshipped`
+  - `/revenu/merchants`
+  - `/revenue/merchants/:merchant_id`
+  - `/revenue/items`
+  - `/revenue/weekly`
+
+## Testing
+
+- Testing done with RSpec and monitored with SimpleCov
+  - suite covers 100% of models, requests
+- `bundle exec rspec`
+
+## Authors
+- [Tanner Dale](https://github.com/TannerDale)

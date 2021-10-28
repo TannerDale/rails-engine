@@ -42,7 +42,6 @@ class Api::V1::ItemsController < ApplicationController
   end
 
   def validate_merchant
-    raise ActionController::BadRequest if params[:item]&.key?(:merchant_id) &&
-                                          !Merchant.find_by(id: params[:item][:merchant_id])
+    Merchant.find_by!(id: params[:item][:merchant_id]) if params[:item]&.key?(:merchant_id)
   end
 end

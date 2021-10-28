@@ -39,6 +39,14 @@ class Invoice < ApplicationRecord
       .group(:id)
   }
 
+  def self.revenue_range(start, stop)
+    shipped
+      .joins(:invoice_items, :transactions)
+      .merge(Transaction.success)
+      .where(created_at: start..stop)
+      .select('(SUM(invoice_items.unit_price * invoice_items.quantity) OVER()) AS revenue')
+  end
+
   def self.revenue_by_week
     shipped
       .joins(:invoice_items)

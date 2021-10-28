@@ -26,7 +26,7 @@ describe Api::V1::ItemsController do
         it 'returns the first 20 items' do
           expect(data.size).to eq(20)
           result = data.map { |d| d[:id].to_i }
-          expect(result).to_not include(items[20].id)
+          expect(result).to_not include(Item.all[20].id)
         end
       end
 
@@ -48,8 +48,9 @@ describe Api::V1::ItemsController do
 
           result = data.map { |item| item[:id].to_i }
 
-          expect(result).not_to include(items.first.id)
-          expect(data.last[:id].to_i).to eq(items.last.id)
+          expect(data.size).to eq(10)
+          expect(result).to_not include(Item.first.id)
+          expect(result).to include(Item.all[20].id)
         end
 
         it 'uses page 1 for negative page numbers' do
@@ -133,7 +134,7 @@ describe Api::V1::ItemsController do
       before { post api_v1_items_path, params: { item: { hell: 'world' } } }
 
       it 'returns status code 400' do
-        expect(response).to have_http_status(404)
+        expect(response).to have_http_status(400)
         expect(Item.count).to eq(0)
       end
     end
@@ -176,9 +177,9 @@ describe Api::V1::ItemsController do
       end
 
       it 'does not update with invalid merchant id' do
-        patch api_v1_item_path(item), params: { item: { merchant_id: 11111 } }
+        patch api_v1_item_path(item), params: { item: { merchant_id: 11_111 } }
 
-        expect(response).to have_http_status(400)
+        expect(response).to have_http_status(404)
       end
     end
   end
