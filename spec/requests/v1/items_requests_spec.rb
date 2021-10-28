@@ -48,8 +48,9 @@ describe Api::V1::ItemsController do
 
           result = data.map { |item| item[:id].to_i }
 
-          expect(result).not_to include(items.first.id)
-          expect(data.last[:id].to_i).to eq(items.last.id)
+          expect(data.size).to eq(10)
+          expect(result).to_not include(Item.first.id)
+          expect(result).to include(Item.all[20].id)
         end
 
         it 'uses page 1 for negative page numbers' do
