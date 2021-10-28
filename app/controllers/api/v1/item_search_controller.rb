@@ -20,19 +20,15 @@ class Api::V1::ItemSearchController < ApplicationController
   end
 
   def invalid_params?
-    empty_params? || name_and_price? || invalid_prices? || !present_params?
+    !params_present? || name_with_price? || invalid_prices?
   end
 
-  def present_params?
-    params[:name] || params[:max_price] || params[:min_price]
-  end
-
-  def name_and_price?
+  def name_with_price?
     params[:name] && (params[:min_price] || params[:max_price])
   end
 
-  def empty_params?
-    params[:name]&.empty? || params[:max_price]&.empty? || params[:min_price]&.empty?
+  def params_present?
+    params[:name].present? || params[:max_price].present? || params[:min_price].present?
   end
 
   def invalid_prices?
