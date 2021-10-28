@@ -112,4 +112,71 @@ describe Api::V1::Revenue::RevenueController do
       expect(data.last[:attributes][:revenue]).to eq(300)
     end
   end
+
+  describe 'revenue in a range' do
+    let(:merchant) { create :merchant }
+    let!(:item1) { create :item, { merchant_id: merchant.id } }
+    let!(:item2) { create :item, { merchant_id: merchant.id } }
+    let!(:customer) { create :customer }
+    let!(:invoice1) { create :invoice, { merchant_id: merchant.id, customer_id: customer.id, status: 'returned', created_at: Date.new(2021, 10, 27) } }
+    let!(:invoice2) { create :invoice, { merchant_id: merchant.id, customer_id: customer.id, status: 'shipped', created_at: Date.new(2021, 10, 18) } }
+    let!(:invoice3) { create :invoice, { merchant_id: merchant.id, customer_id: customer.id, status: 'packaged', created_at: Date.new(2021, 10, 25) } }
+    let!(:invoice4) { create :invoice, { merchant_id: merchant.id, customer_id: customer.id, status: 'shipped', created_at: Date.new(2021, 10, 22) } }
+    let!(:invoice5) { create :invoice, { merchant_id: merchant.id, customer_id: customer.id, status: 'shipped', created_at: Date.new(2021, 9, 22) } }
+    let!(:invoice6) { create :invoice, { merchant_id: merchant.id, customer_id: customer.id, status: 'shipped', created_at: Date.new(2021, 10, 1) } }
+    let!(:invoice_item1) { create :invoice_item, { item_id: item1.id, invoice_id: invoice1.id, quantity: 1, unit_price: 300 } }
+    let!(:invoice_item2) { create :invoice_item, { item_id: item1.id, invoice_id: invoice2.id, quantity: 2, unit_price: 200 } } # 400
+    let!(:invoice_item3) { create :invoice_item, { item_id: item2.id, invoice_id: invoice2.id, quantity: 3, unit_price: 100 } } # 300
+    let!(:invoice_item4) { create :invoice_item, { item_id: item2.id, invoice_id: invoice3.id, quantity: 3, unit_price: 500 } }
+    let!(:invoice_item5) { create :invoice_item, { item_id: item2.id, invoice_id: invoice4.id, quantity: 3, unit_price: 100 } } # 300
+    let!(:invoice_item6) { create :invoice_item, { item_id: item2.id, invoice_id: invoice5.id, quantity: 4, unit_price: 100 } } # 400
+    let!(:invoice_item7) { create :invoice_item, { item_id: item2.id, invoice_id: invoice6.id, quantity: 5, unit_price: 100 } } # 500
+
+    let!(:trans1) { create :transaction, { result: 'success', invoice_id: invoice1.id } }
+    let!(:trans2) { create :transaction, { result: 'success', invoice_id: invoice2.id } }
+    let!(:trans3) { create :transaction, { result: 'success', invoice_id: invoice3.id } }
+    let!(:trans4) { create :transaction, { result: 'success', invoice_id: invoice4.id } }
+    let!(:trans5) { create :transaction, { result: 'success', invoice_id: invoice5.id } }
+    let!(:trans6) { create :transaction, { result: 'success', invoice_id: invoice6.id } }
+
+    let(:revenue) { data[:attributes][:revenue] }
+
+    context 'with valid params' do
+      it 'returns the revenue in a range' do
+        get api_v1_revenue_range_path, params: { start: '2021-10-01', end: '2021-10-22' }
+
+        expect(json).to have_key(:data)
+        expect(data[:id]).to be_nil
+        expect(revenue).to eq(1500)
+      end
+
+      it 'returns the revenue in another range' do
+        get api_v1_revenue_range_path, params: { start: '2021-09-01', end: '2021-10-17' }
+
+        expect(json).to have_key(:data)
+        expect(data[:id]).to be_nil
+        expect(revenue).to eq(1600)
+      end
+    end
+
+    context 'with invalid params' do
+      it 'rejects no start date' do
+        get api_v1_revenue_range_path, params: { end: '2021-10-17' }
+
+        expect(response).to have_http_status(400)
+      end
+
+      it 'rejects no end date' do
+        get api_v1_revenue_range_path, params: { start: '2021-10-17' }
+
+        expect(response).to have_http_status(400)
+      end
+
+      it 'rejects end date that is before start date' do
+        get api_v1_revenue_range_path, params: { start: '2021-10-01', end: '2021-09-17' }
+
+        expect(response).to have_http_status(400)
+      end
+    end
+  end
 end
