@@ -46,7 +46,7 @@ distribution center.
       </ul>
     </li>
     <li><a href="#endpoints">Endpoints</a></li>
-    <li><a href="#example-responses">Endpoints</a></li>
+    <li><a href="#responses">Example Responses</a></li>
     <li><a href="#contact">Contact</a></li>
   </ol>
 </details>
