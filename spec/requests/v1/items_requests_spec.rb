@@ -176,7 +176,7 @@ describe Api::V1::ItemsController do
       end
 
       it 'does not update with invalid merchant id' do
-        patch api_v1_item_path(item), params: { item: { merchant_id: 11111 } }
+        patch api_v1_item_path(item), params: { item: { merchant_id: 11_111 } }
 
         expect(response).to have_http_status(404)
       end
