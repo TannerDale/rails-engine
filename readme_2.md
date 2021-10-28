@@ -1,18 +1,14 @@
 <div id="top"></div>
 
 -->
-[![Contributors][contributors-shield]][https://github.com/TannerDale/rails-engine/graphs/contributors]
-[![Forks][forks-shield]][https://github.com/TannerDale/rails-engine/network/members]
-[![LinkedIn][linkedin-shield]][https://www.linkedin.com/in/tannerdale/]
+[![Contributors][contributors-shield]][contributors-url]
+[![Forks][forks-shield]][forks-url]
+[![LinkedIn][linkedin-shield]][likedin-url]
 
 
 
 <!-- PROJECT LOGO -->
 <br />
-<div align="center">
-  <a href="https://github.com/TannerDale/rails-engine">
-    <img src="images/logo.png" alt="Logo" width="80" height="80">
-  </a>
 
 <h3 align="center">Rails Engine</h3>
 
@@ -72,8 +68,9 @@ distribution center.
 
 ### Built With
 
-* [Ruby on Rails](https://rubyonrails.org/)
-* [PostgreSQL](https://www.postgresql.org/)
+* [Ruby on Rails](https://rubyonrails.org/) - 5.2.6
+* [Ruby](https://www.ruby-lang.org/en/) - 2.7.2
+* [PostgreSQL](https://www.postgresql.org/) >= 0.18
 * [RSpec](https://rspec.info/)
 * [SimpleCov](https://github.com/simplecov-ruby/simplecov)
 * [JSONAPI](https://github.com/jsonapi-serializer/jsonapi-serializer)
@@ -189,7 +186,7 @@ distribution center.
 <!-- CONTACT -->
 ## Contact
 
-Tanner Dale  - [Email](tanner@tannerdale.com)
+Tanner Dale  - tanner@tannerdale.com
 
 Project Link: [https://github.com/TannerDale/rails-engine](https://github.com/TannerDale/rails-engine)
 
@@ -209,4 +206,4 @@ Project Link: [https://github.com/TannerDale/rails-engine](https://github.com/Ta
 [license-shield]: https://img.shields.io/github/license/TannerDale/rails-engine.svg?style=for-the-badge
 [license-url]: https://github.com/TannerDale/rails-engine/blob/master/LICENSE.txt
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
-[https://www.linkedin.com/in/tannerdale/]: https://linkedin.com/in/TannerDale
+[linkedin-url]: https://linkedin.com/in/TannerDale
