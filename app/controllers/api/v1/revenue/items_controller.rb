@@ -1,6 +1,6 @@
 class Api::V1::Revenue::ItemsController < ApplicationController
   def revenue
-    raise ActionController::BadRequest if invalid_params?
+    raise ActionController::BadRequest unless valid_quantity?
 
     items = Item.ordered_by_revenue.limit(params[:quantity] || 10)
     render json: V1::ItemRevenueSerializer.new(items)
@@ -8,15 +8,7 @@ class Api::V1::Revenue::ItemsController < ApplicationController
 
   private
 
-  def invalid_params?
-    params[:quantity] && (invalid_quantity? || empty_quantity?)
-  end
-
-  def invalid_quantity?
-    !params[:quantity]&.to_i&.positive?
-  end
-
-  def empty_quantity?
-    params[:quantity]&.empty?
+  def valid_quantity?
+    params[:quantity].nil? || params[:quantity].to_i.positive?
   end
 end
