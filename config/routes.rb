@@ -21,6 +21,7 @@ Rails.application.routes.draw do
       end
 
       namespace :revenue do
+        root to: 'revenue#range', as: 'range'
         get '/unshipped', to: 'revenue#unshipped'
         resources :merchants, only: %i[index show]
         get '/items', to: 'items#revenue'
